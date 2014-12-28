@@ -1,7 +1,9 @@
 package com.qph.hibernate;
 
 import java.util.Date;
+import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -19,21 +21,16 @@ public class HibernateTest {
 		SessionFactory buildSessionFactory = new Configuration().configure("config//hibernate.cfg.xml").buildSessionFactory();
 		Session session = buildSessionFactory.openSession();
 		session.beginTransaction();
+		Query query = session.createQuery("from UserDetails");
+		query.setFirstResult(5);
 		
-		UserDetails user = (UserDetails) session.get(UserDetails.class, 10);
-		
-		session.getTransaction().commit();
-		session.close();
-
-		//user.setUserName("Username updated after session closed");
-		
-		session = buildSessionFactory.openSession();
-		session.beginTransaction();
-		session.update(user);
-		//user.setUserName("Username updated after updated");
+		List<UserDetails> users = query.list();
 		session.getTransaction().commit();
 		session.close();
 		
+		for(UserDetails user : users){
+			System.out.println(user.getUserName());
+		}
 	}
 
 }
