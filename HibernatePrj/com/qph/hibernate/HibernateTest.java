@@ -21,15 +21,16 @@ public class HibernateTest {
 		SessionFactory buildSessionFactory = new Configuration().configure("config//hibernate.cfg.xml").buildSessionFactory();
 		Session session = buildSessionFactory.openSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from UserDetails");
+		Query query = session.createQuery("select userName from UserDetails");
 		query.setFirstResult(5);
+		query.setMaxResults(4);
 		
-		List<UserDetails> users = query.list();
+		List<String> userNames = query.list();
 		session.getTransaction().commit();
 		session.close();
 		
-		for(UserDetails user : users){
-			System.out.println(user.getUserName());
+		for(String u : userNames){
+			System.out.println(u);
 		}
 	}
 
