@@ -16,7 +16,7 @@ public class HibernateTest {
 
 	public static void main(String[] args) {
 		
-		SessionFactory buildSessionFactory = new Configuration().configure().buildSessionFactory();
+		SessionFactory buildSessionFactory = new Configuration().configure("config//hibernate.cfg.xml").buildSessionFactory();
 		Session session = buildSessionFactory.openSession();
 		session.beginTransaction();
 		
