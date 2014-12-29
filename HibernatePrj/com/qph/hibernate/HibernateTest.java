@@ -25,7 +25,8 @@ public class HibernateTest {
 		session.beginTransaction();
 		
 		Criteria criteria = session.createCriteria(UserDetails.class);
-		criteria.add(Restrictions.eq("userName", "User9"));
+		criteria.add(Restrictions.or(Restrictions.between("userId", 10, 12), 
+									 Restrictions.between("userId", 15, 20)));
 		
 		List<UserDetails> userNames = criteria.list();
 		session.getTransaction().commit();
