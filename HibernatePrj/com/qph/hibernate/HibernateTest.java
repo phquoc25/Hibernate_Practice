@@ -3,10 +3,12 @@ package com.qph.hibernate;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 
 import com.qph.dto.Address;
 import com.qph.dto.FourWheeler;
@@ -21,12 +23,11 @@ public class HibernateTest {
 		SessionFactory buildSessionFactory = new Configuration().configure("config//hibernate.cfg.xml").buildSessionFactory();
 		Session session = buildSessionFactory.openSession();
 		session.beginTransaction();
-		int id = 10;
 		
-		Query query = session.getNamedQuery("UserDetails:byId");
-		query.setInteger(0, id);
+		Criteria criteria = session.createCriteria(UserDetails.class);
+		criteria.add(Restrictions.eq("userName", "User9"));
 		
-		List<UserDetails> userNames = query.list();
+		List<UserDetails> userNames = criteria.list();
 		session.getTransaction().commit();
 		session.close();
 		
