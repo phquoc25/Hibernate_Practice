@@ -21,10 +21,10 @@ public class HibernateTest {
 		SessionFactory buildSessionFactory = new Configuration().configure("config//hibernate.cfg.xml").buildSessionFactory();
 		Session session = buildSessionFactory.openSession();
 		session.beginTransaction();
-		String userName = "User6";
+		int id = 10;
 		
-		Query query = session.createQuery("from UserDetails where userName=:userName");
-		query.setString("userName", userName);
+		Query query = session.getNamedQuery("UserDetails:byId");
+		query.setInteger(0, id);
 		
 		List<UserDetails> userNames = query.list();
 		session.getTransaction().commit();
