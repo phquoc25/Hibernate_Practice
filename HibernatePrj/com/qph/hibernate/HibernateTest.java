@@ -15,13 +15,14 @@ import com.qph.dto.FourWheeler;
 import com.qph.dto.TwoWheeler;
 import com.qph.dto.UserDetails;
 import com.qph.dto.Vehicle;
+import com.qph.util.HibernateUtil;
 
 public class HibernateTest {
 
 	public static void main(String[] args) {
 		
-		SessionFactory buildSessionFactory = new Configuration().configure("config//hibernate.cfg.xml").buildSessionFactory();
-		Session session = buildSessionFactory.openSession();
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		
 		Criteria criteria = session.createCriteria(UserDetails.class);
