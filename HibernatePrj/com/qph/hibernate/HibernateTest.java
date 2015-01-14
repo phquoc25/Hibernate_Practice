@@ -8,6 +8,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.qph.dto.Address;
@@ -25,16 +27,16 @@ public class HibernateTest {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		
-		Criteria criteria = session.createCriteria(UserDetails.class);
-		criteria.add(Restrictions.or(Restrictions.between("userId", 10, 12), 
-									 Restrictions.between("userId", 15, 20)));
+		Criteria criteria = session.createCriteria(UserDetails.class)
+							.setProjection(Projections.property("userName"));
 		
-		List<UserDetails> userNames = criteria.list();
+		//List<UserDetails> userNames = criteria.list();
+		List<String> userNames = criteria.list();
 		session.getTransaction().commit();
 		session.close();
 		
-		for(UserDetails u : userNames){
-			System.out.println(u.getUserName());
+		for(String u : userNames){
+			System.out.println(u);
 		}
 	}
 
